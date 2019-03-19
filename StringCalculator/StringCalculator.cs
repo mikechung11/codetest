@@ -2,7 +2,7 @@
 
 namespace StringCalculator
 {
-    public class Class1
+    public class StringCalculator
     {
     }
 }
