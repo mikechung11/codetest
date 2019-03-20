@@ -15,16 +15,35 @@ namespace StringCalculator
             }
             else
             {
-                String[] stringArr = SplitNumbers(numbers);
+                String[] stringArr;
+                if (numbers.StartsWith("//"))
+                {
+                    (string delimiter, string newNumbers) = GetDelimiter(numbers);
+                    stringArr = SplitNumbers(newNumbers, delimiter);
+                }
+                else
+                {
+                    stringArr = SplitNumbers(numbers);
+                }
                 int[] intArr = Array.ConvertAll(stringArr, int.Parse);
                 sum = intArr.Sum();
             }
             return sum;
         }
 
-        private string[] SplitNumbers(string numbers)
+        private (string delimiter, string newNumbers) GetDelimiter(string numbers)
         {
-            string pattern = "[\n,]";
+            int startIndex = numbers.IndexOf("//") + "//".Length;
+            int endIndex = numbers.LastIndexOf("\n");
+            string delimiter = numbers.Substring(startIndex, endIndex - startIndex);
+
+            string newNumbers = Regex.Split(numbers, "\n")[1];
+
+            return (delimiter, newNumbers);
+        }
+
+        private string[] SplitNumbers(string numbers, string pattern = "[\n,]")
+        {
             String[] elements = Regex.Split(numbers, pattern);
             return elements;
         }
