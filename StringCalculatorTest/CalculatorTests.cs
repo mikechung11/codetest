@@ -85,5 +85,15 @@ namespace StringCalculatorTest
             Assert.AreEqual(expected, actual);
         }
 
+        [TestMethod]
+        public void When_CustomDelimiterOfAnyLengthUsed_Expect_SumAsInt()
+        {
+            string numbers = "//***\n1***2***3";
+            int expected = 6;
+            Calculator test = new Calculator();
+            int actual = test.Add(numbers);
+            Assert.AreEqual(expected, actual);
+        }
+
     }
 }

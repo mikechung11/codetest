@@ -6,6 +6,10 @@ namespace StringCalculator
 {
     public class Calculator
     {
+        private readonly char[] delimiters = { ',', '\n' };
+        private const string delimiterIdentifier = "//";
+        private const char newLine = '\n';
+
         public int Add(string numbers)
         {
             int sum;
@@ -16,10 +20,10 @@ namespace StringCalculator
             else
             {
                 String[] stringArr;
-                if (numbers.StartsWith("//"))
+                if (numbers.StartsWith(delimiterIdentifier))
                 {
-                    (string delimiter, string newNumbers) = GetDelimiter(numbers);
-                    stringArr = SplitNumbers(newNumbers, delimiter);
+                    stringArr = SplitNumbersWithCustomDelimiter(numbers);
+                    //stringArr = SplitNumbers(newNumbers, delimiter);
                 }
                 else
                 {
@@ -38,20 +42,23 @@ namespace StringCalculator
             return sum;
         }
 
-        private (string delimiter, string newNumbers) GetDelimiter(string numbers)
+        private string[] SplitNumbersWithCustomDelimiter(string numbers)
         {
-            int startIndex = numbers.IndexOf("//") + "//".Length;
-            int endIndex = numbers.LastIndexOf("\n");
-            string delimiter = numbers.Substring(startIndex, endIndex - startIndex);
+            int startIndex = numbers.IndexOf(delimiterIdentifier) + delimiterIdentifier.Length;
+            int endIndex = numbers.LastIndexOf(newLine);
+            string customDelimiter = numbers.Substring(startIndex, endIndex - startIndex);
 
-            string newNumbers = Regex.Split(numbers, "\n")[1];
+            string[] customDelimArr = { customDelimiter };
+            string newNumbers = numbers.Split(newLine)[1];
 
-            return (delimiter, newNumbers);
+            string[] elements = newNumbers.Split(customDelimArr, StringSplitOptions.None);
+            return elements;
         }
 
-        private string[] SplitNumbers(string numbers, string pattern = "[\n,]")
+        private string[] SplitNumbers(string numbers)
         {
-            String[] elements = Regex.Split(numbers, pattern);
+            string[] elements = numbers.Split(delimiters);
+            //String[] elements = Regex.Split(numbers, pattern);
             return elements;
         }
     }
