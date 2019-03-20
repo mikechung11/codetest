@@ -57,5 +57,23 @@ namespace StringCalculatorTest
             Assert.AreEqual(expected, actual);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void When_NegativeNumberUsed_Expect_ThrowExeption()
+        {
+            string numbers = "-1";
+            Calculator test = new Calculator();
+            int actual = test.Add(numbers);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void When_MultipleNegativeNumberUsed_Expect_ThrowExeption()
+        {
+            string numbers = "-5,-1,0,1";
+            Calculator test = new Calculator();
+            int actual = test.Add(numbers);
+        }
+
     }
 }

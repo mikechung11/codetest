@@ -25,7 +25,14 @@ namespace StringCalculator
                 {
                     stringArr = SplitNumbers(numbers);
                 }
+
                 int[] intArr = Array.ConvertAll(stringArr, int.Parse);
+                if (intArr.Min() < 0)
+                {
+                    int[] negativeArr = intArr.Where(i => i < 0).ToArray();
+                    string negatives = string.Join(", ", negativeArr);
+                    throw new Exception($"negatives not allowed: {negatives}"); 
+                }
                 sum = intArr.Sum();
             }
             return sum;
