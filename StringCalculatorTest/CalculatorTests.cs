@@ -115,5 +115,47 @@ namespace StringCalculatorTest
             Assert.AreEqual(expected, actual);
         }
 
+        [TestMethod]
+        public void When_UsingSubtraction_Expect_DifferenceAsInt()
+        {
+            string numbers = "10,3,2";
+            char operand = '-';
+            int expected = 5;
+            Calculator test = new Calculator();
+            int actual = test.Add(numbers, operand);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void When_UsingMultilpication_Expect_ProductAsInt()
+        {
+            string numbers = "2,3,4";
+            char operand = '*';
+            int expected = 24;
+            Calculator test = new Calculator();
+            int actual = test.Add(numbers, operand);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void When_UsingDivision_Expect_QuotientAsInt()
+        {
+            string numbers = "12,3,2";
+            char operand = '/';
+            int expected = 2;
+            Calculator test = new Calculator();
+            int actual = test.Add(numbers, operand);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(DivideByZeroException))]
+        public void When_DividingBy0_Expect_Undefined()
+        {
+            string numbers = "0,5";
+            char operand = '/';
+            Calculator test = new Calculator();
+            int actual = test.Add(numbers, operand);
+        }
     }
 }
