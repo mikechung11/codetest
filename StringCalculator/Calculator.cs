@@ -33,7 +33,7 @@ namespace StringCalculator
                     string negatives = string.Join(", ", negativeArr);
                     throw new Exception($"negatives not allowed: {negatives}"); 
                 }
-                sum = intArr.Sum();
+                sum = intArr.Where(i => i <= 1000).Sum();
             }
             return sum;
         }

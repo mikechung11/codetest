@@ -75,5 +75,15 @@ namespace StringCalculatorTest
             int actual = test.Add(numbers);
         }
 
+        [TestMethod]
+        public void When_NumberGreaterThan1000Used_Expect_SumIgnoringNumberGreaterThan1000()
+        {
+            string numbers = "1001,2";
+            int expected = 2;
+            Calculator test = new Calculator();
+            int actual = test.Add(numbers);
+            Assert.AreEqual(expected, actual);
+        }
+
     }
 }
