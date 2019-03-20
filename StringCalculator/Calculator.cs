@@ -7,6 +7,8 @@ namespace StringCalculator
     public class Calculator
     {
         private readonly char[] delimiters = { ',', '\n' };
+        private readonly char[] trimChars = { '[', ']' };
+        private readonly string[] splitDelimiters = { "][" };
         private const string delimiterIdentifier = "//";
         private const char newLine = '\n';
 
@@ -23,7 +25,6 @@ namespace StringCalculator
                 if (numbers.StartsWith(delimiterIdentifier))
                 {
                     stringArr = SplitNumbersWithCustomDelimiter(numbers);
-                    //stringArr = SplitNumbers(newNumbers, delimiter);
                 }
                 else
                 {
@@ -33,9 +34,9 @@ namespace StringCalculator
                 int[] intArr = Array.ConvertAll(stringArr, int.Parse);
                 if (intArr.Min() < 0)
                 {
-                    int[] negativeArr = intArr.Where(i => i < 0).ToArray();
-                    string negatives = string.Join(", ", negativeArr);
-                    throw new Exception($"negatives not allowed: {negatives}"); 
+                    int[] negArr = intArr.Where(i => i < 0).ToArray();
+                    string negStr = string.Join(", ", negArr);
+                    throw new Exception($"negatives not allowed: {negStr}"); 
                 }
                 sum = intArr.Where(i => i <= 1000).Sum();
             }
@@ -46,9 +47,10 @@ namespace StringCalculator
         {
             int startIndex = numbers.IndexOf(delimiterIdentifier) + delimiterIdentifier.Length;
             int endIndex = numbers.LastIndexOf(newLine);
-            string customDelimiter = numbers.Substring(startIndex, endIndex - startIndex);
+            string customDelimStr = numbers.Substring(startIndex, endIndex - startIndex);
+            string trimmedDelimGroup = customDelimStr.Trim(trimChars);
+            string[] customDelimArr = trimmedDelimGroup.Split(splitDelimiters, StringSplitOptions.None);
 
-            string[] customDelimArr = { customDelimiter };
             string newNumbers = numbers.Split(newLine)[1];
 
             string[] elements = newNumbers.Split(customDelimArr, StringSplitOptions.None);
@@ -58,7 +60,6 @@ namespace StringCalculator
         private string[] SplitNumbers(string numbers)
         {
             string[] elements = numbers.Split(delimiters);
-            //String[] elements = Regex.Split(numbers, pattern);
             return elements;
         }
     }
